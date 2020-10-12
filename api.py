@@ -10,7 +10,7 @@ CORS(app)
 app.config["DEBUG"] = True
 
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='***')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
 myCursor = connection.cursor(dictionary=True)
 
 @app.route('/api/checkins', methods=['GET'])
@@ -25,6 +25,12 @@ def gevoel_fetch():
     myCursor.execute("SELECT User_ID, Squad, Gevoel FROM checkins")
     myResults = myCursor.fetchall()
     return jsonify(myResults), 200
+
+
+   #@app.route('/api/checkins', methods=['POST'])
+   #def checkins_post():
+
+
 
 app.run()
 
