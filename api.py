@@ -28,18 +28,21 @@ def gevoel_fetch():
     return jsonify(myResults), 200
 
 
-   #@app.route('/api/checkins', methods=['POST'])
-   #def checkins_post():
-
+@app.route('/api/checkins/post', methods=['POST'])
+def checkins_post():
+    myCursor.execute(f"""INSERT INTO checkins (ID, Start_time, Completion_time, User_ID, Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag) VALUES ('{ID}', '{Start_time}', '{Completion_time}', '{User_ID}', '{Datum}', '{Squad}', '{Gevoel}', '{Waarom_gevoel}', '{Gedaan}', '{Geleerd}', '{Vandaag_doen}', '{Vraag}')""")
+    mycursor.commit()
+    return jsonify(request.json)
 
 
 app.run()
 
-#http://127.0.0.1:5000/api/checkins
-#http://127.0.0.1:5000/api/checkins/gevoel
+# http://127.0.0.1:5000/api/checkins
+# http://127.0.0.1:5000/api/checkins/gevoel
+# http://127.0.0.1:5000/api/checkins/post
 
-#from mysql.connector import Error
-#from MySQLdb import connect
+# from mysql.connector import Error
+# from MySQLdb import connect
 
-#Columns titels
-#ID, Start_time, Completion_time, User_ID, Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag
+# Columns titels
+# ID, Start_time, Completion_time, User_ID, Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag
