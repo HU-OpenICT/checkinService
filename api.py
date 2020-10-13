@@ -13,6 +13,7 @@ connection = mysql.connector.connect(
     host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
 myCursor = connection.cursor(dictionary=True)
 
+
 @app.route('/api/checkins', methods=['GET'])
 def checkins_fetch():
     myCursor.execute("SELECT * FROM checkins")
