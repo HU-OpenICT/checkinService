@@ -30,7 +30,9 @@ def gevoel_fetch():
 
 @app.route('/api/checkins/post', methods=['POST'])
 def checkins_post():
-    return jsonify(request.json)
+    data = request.json
+    myCursor.execute("INSERT INTO checkins (Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag) VALUES ('{}','{}','{}', '{}','{}','{}','{}','{}')".format(data['datum'], data['team'], data['gevoel'], data['reden_gevoel'], data['gister_gedaan'], data['gister_geleerd'], data['vandaag_doen'], data['hulpvragen']))
+    return jsonify({'succes' : True}), 200, {'ContenType': 'application/json'}
 
 
 app.run()
