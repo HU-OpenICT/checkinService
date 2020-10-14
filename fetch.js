@@ -5,7 +5,7 @@ fetch('http://127.0.0.1:5000/api/checkins')
   var tbl = document.createElement("table");
   var tblHead = document.createElement("thead");
   var tblBody = document.createElement("tbody");
-  var keys = ['Datum', 'ID', 'Gevoel', 'User_ID'];
+  var keys = ['Datum', 'Gevoel', 'User_ID'];
   var header = document.createElement("tr");
   keys.forEach(function (key) {
     //Object.keys(checkin).forEach(function (key) {
