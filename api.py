@@ -10,7 +10,7 @@ CORS(app)
 app.config["DEBUG"] = True
 
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='****')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
 myCursor = connection.cursor(dictionary=True)
 
 
@@ -28,18 +28,19 @@ def gevoel_fetch():
     return jsonify(myResults), 200
 
 
-@app.route('/api/checkins/post', methods=['POST'])
+@app.route('/api/checkins', methods=['POST'])
 def checkins_post():
     data = request.json
     myCursor.execute("INSERT INTO checkins (Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag) VALUES ('{}','{}','{}', '{}','{}','{}','{}','{}')".format(data['datum'], data['team'], data['gevoel'], data['reden_gevoel'], data['gister_gedaan'], data['gister_geleerd'], data['vandaag_doen'], data['hulpvragen']))
-    return jsonify({'succes' : True}), 200, {'ContenType': 'application/json'}
+    connection.commit()
+    return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 app.run()
 
 # http://127.0.0.1:5000/api/checkins
 # http://127.0.0.1:5000/api/checkins/gevoel
-# http://127.0.0.1:5000/api/checkins/post
+
 
 # Columns titels
 # ID, Start_time, Completion_time, User_ID, Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag
