@@ -10,7 +10,7 @@ CORS(app)
 app.config["DEBUG"] = True
 
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password='****')
 myCursor = connection.cursor(dictionary=True)
 
 
