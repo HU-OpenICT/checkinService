@@ -18,20 +18,13 @@ myCursor = connection.cursor(dictionary=True)
 def checkins_fetch():
     myCursor.execute("SELECT * FROM checkins")
     myResults = myCursor.fetchall()
-    return jsonify(myResults), 200
-
-
-@app.route('/api/checkins/gevoel', methods=['GET'])
-def gevoel_fetch():
-    myCursor.execute("SELECT User_ID, Squad, Gevoel FROM checkins")
-    myResults = myCursor.fetchall()
-    return jsonify(myResults), 200
+    return jsonify(myResults), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/api/checkins', methods=['POST'])
 def checkins_post():
     data = request.json
-    myCursor.execute("INSERT INTO checkins (Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag) VALUES ('{}','{}','{}', '{}','{}','{}','{}','{}')".format(data['datum'], data['team'], data['gevoel'], data['reden_gevoel'], data['gister_gedaan'], data['gister_geleerd'], data['vandaag_doen'], data['hulpvragen']))
+    myCursor.execute("INSERT INTO checkins (Start_time, Completion_time, Date, Squad, Feeling, Why_feeling, Did, Learned, Todo, Question) VALUES ('{}', '{}', '{}', '{}','{}', '{}','{}','{}','{}','{}')".format(data['start_time'], data['end_time'], data['date'], data['team'], data['feeling'], data['why_feeling'], data['did'], data['learned'], data['todo'], data['question']))
     connection.commit()
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
@@ -42,5 +35,3 @@ app.run()
 # http://127.0.0.1:5000/api/checkins/gevoel
 
 
-# Columns titels
-# ID, Start_time, Completion_time, User_ID, Datum, Squad, Gevoel, Waarom_gevoel, Gedaan, Geleerd, Vandaag_doen, Vraag
