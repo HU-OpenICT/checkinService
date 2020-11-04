@@ -10,7 +10,7 @@ CORS(app)
 app.config["DEBUG"] = True
 
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='***')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password='****')
 myCursor = connection.cursor(dictionary=True)
 
 
@@ -24,6 +24,12 @@ def checkins_fetch():
     myResults = myCursor.fetchall()
     return jsonify(myResults), 200, {'ContentType': 'application/json'}
 
+@app.route('/api/checkins/<int:checkin_id>', methods=['GET'])
+def checkin_fetch(checkin_id):
+    myCursor.execute('SELECT * FROM checkins WHERE Checkin_ID = {}'.format(checkin_id))
+    myResults = myCursor.fetchall()
+    return jsonify(myResults), 200, {'ContentType': 'application/json'}
+
 @app.route('/api/checkins', methods=['POST'])
 def checkins_post():
     data = request.json
@@ -31,9 +37,25 @@ def checkins_post():
     connection.commit()
     return jsonify({'success': True}), 201, {'ContentType': 'application/json'}
 
-@app.route('/api/checkins/<int:Checkin_ID>', methods=['PUT'])
-def checkins_update(Checkin_ID):
-    myCursor.execute("")
+@app.route('/api/checkins/<int:checkin_id>', methods=['PUT'])
+def checkins_update(checkin_id):
+    data = request.json
+    set_values = []
+    for k, v in data.items():
+        if isinstance(v) == str:
+            set_values.append('{} = "{}"'.format(k, v))
+        else:
+            set_values.append('{} = {}'.format(k, v))
+    sql = 'UPDATE checkins SET '
+    count = 0
+    for set_value in set_values:
+        if count == 0:
+            sql = sql + set_value
+        else:
+            sql = sql + ', ' + set_value
+
+    sql = sql + ' WHERE id = {}'.format(checkin_id)
+    myCursor.execute(sql)
     connection.commit()
     return jsonify({'success': True}), 202, {'ContentType': 'application/json'}
 
