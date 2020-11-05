@@ -10,9 +10,8 @@ CORS(app)
 app.config["DEBUG"] = True
 
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='****')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
 myCursor = connection.cursor(dictionary=True)
-
 
 @app.route('/api/checkins', methods=['GET'])
 def checkins_fetch():
@@ -42,19 +41,14 @@ def checkins_update(checkin_id):
     data = request.json
     set_values = []
     for k, v in data.items():
-        if isinstance(v) == str:
+        if isinstance(v, str):
             set_values.append('{} = "{}"'.format(k, v))
         else:
             set_values.append('{} = {}'.format(k, v))
     sql = 'UPDATE checkins SET '
-    count = 0
-    for set_value in set_values:
-        if count == 0:
-            sql = sql + set_value
-        else:
-            sql = sql + ', ' + set_value
-
-    sql = sql + ' WHERE id = {}'.format(checkin_id)
+    seperator = ', '
+    sql = sql + seperator.join(set_values)
+    sql = sql + ' WHERE Checkin_ID = {}'.format(checkin_id)
     myCursor.execute(sql)
     connection.commit()
     return jsonify({'success': True}), 202, {'ContentType': 'application/json'}
