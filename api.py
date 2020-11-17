@@ -32,7 +32,7 @@ def checkin_fetch(checkin_id):
 @app.route('/api/checkins', methods=['POST'])
 def checkins_post():
     data = request.json
-    myCursor.execute("INSERT INTO checkins (Start_time, User_ID, Date, Squad, Feeling, Why_feeling, Did, Learned, Todo, Question) VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}','{}','{}', '{}')".format(data['start_time'], data['student_id'], data['date'], data['team'], data['feeling'], data['why_feeling'], data['did'], data['learned'], data['todo'], data['question']))
+    myCursor.execute("INSERT INTO checkins (Start_time, Completion_time, User_ID, Date, Squad, Feeling, Why_feeling, Did, Learned, Todo, Question) VALUES ('{}', '{}', '{}', '{}', '{}', '{}','{}', '{}','{}','{}', '{}')".format(data['start_time'], data['getTime'], data['User_ID'], data['date'], data['team'], data['feeling'], data['why_feeling'], data['did'], data['learned'], data['todo'], data['question']))
     connection.commit()
     return jsonify({'success': True}), 201, {'ContentType': 'application/json'}
 
