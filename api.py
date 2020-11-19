@@ -1,23 +1,30 @@
 import flask
 from flask import request, jsonify
 
+from flask_cors import CORS
+
 import mysql.connector
 
-from flask_cors import CORS
+import ww
 
 app = flask.Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
+
 connection = mysql.connector.connect(
-    host='127.0.0.1', port='3307', database='checkin', user='root', password='123flappie')
+    host='127.0.0.1', port='3307', database='checkin', user='root', password=ww.password)
 myCursor = connection.cursor(dictionary=True)
+
 
 @app.route('/api/checkins', methods=['GET'])
 def checkins_fetch():
-    if 'user_id' in request.args:
-        user_id = request.args['user_id']
-        myCursor.execute("SELECT * FROM checkins WHERE User_ID = {}".format(user_id))
+    if 'squad' in request.args:
+        squad = request.args['squad']
+        myCursor.execute("SELECT * FROM checkins WHERE Squad = {}".format(squad))
+    elif 'feeling' in request.args:
+        feeling = request.args['feeling']
+        myCursor.execute("SELECT * FROM checkins WHERE Feeling = {}".format(feeling))
     else:
         myCursor.execute("SELECT * FROM checkins")
     myResults = myCursor.fetchall()
@@ -26,6 +33,12 @@ def checkins_fetch():
 @app.route('/api/checkins/<int:checkin_id>', methods=['GET'])
 def checkin_fetch(checkin_id):
     myCursor.execute('SELECT * FROM checkins WHERE Checkin_ID = {}'.format(checkin_id))
+    myResults = myCursor.fetchall()
+    return jsonify(myResults), 200, {'ContentType': 'application/json'}
+
+@app.route('/api/checkins/user/<int:user_id>', methods=['GET'])
+def user_fetch(user_id):
+    myCursor.execute('SELECT * FROM checkins WHERE User_ID = {}'.format(user_id))
     myResults = myCursor.fetchall()
     return jsonify(myResults), 200, {'ContentType': 'application/json'}
 
@@ -56,6 +69,7 @@ def checkins_update(checkin_id):
 app.run()
 
 # http://127.0.0.1:5000/api/checkins
+# http://127.0.0.1:5000/api/checkins/user/
 
 
 
