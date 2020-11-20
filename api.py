@@ -38,7 +38,12 @@ def checkin_fetch(checkin_id):
 
 @app.route('/api/checkins/user/<int:user_id>', methods=['GET'])
 def user_fetch(user_id):
-    myCursor.execute('SELECT * FROM checkins WHERE User_ID = {}'.format(user_id))
+    if 'feeling' in request.args:
+        feeling = request.args['feeling']
+        sql = ("SELECT * FROM checkins WHERE User_ID = {}".format(user_id) + " AND Feeling = {}").format(feeling)
+        myCursor.execute(sql)
+    else:
+        myCursor.execute('SELECT * FROM checkins WHERE User_ID = {}'.format(user_id))
     myResults = myCursor.fetchall()
     return jsonify(myResults), 200, {'ContentType': 'application/json'}
 
