@@ -42,6 +42,10 @@ def user_fetch(user_id):
         feeling = request.args['feeling']
         sql = ("SELECT * FROM checkins WHERE User_ID = {}".format(user_id) + " AND Feeling = {}").format(feeling)
         myCursor.execute(sql)
+    elif 'squad' in request.args:
+        squad = request.args['squad']
+        sql = ("SELECT * FROM checkins WHERE User_ID = {}".format(user_id) + " AND Squad = {}").format(squad)
+        myCursor.execute(sql)
     else:
         myCursor.execute('SELECT * FROM checkins WHERE User_ID = {}'.format(user_id))
     myResults = myCursor.fetchall()
