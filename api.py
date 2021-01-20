@@ -1,5 +1,4 @@
 import flask
-# import mysql.connector
 import mariadb
 from flask import request, jsonify
 from flask_cors import CORS
@@ -10,9 +9,6 @@ app = flask.Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
-# connection = mysql.connector.connect(
-#     host='127.0.0.1', port='3307', database='checkin', user='root', password=ww.password)
-# myCursor = connection.cursor(dictionary=True)
 connection = mariadb.connect(
     host='127.0.0.1', port=3306, database='checkin', user='root', password=ww.password)
 myCursor = connection.cursor(dictionary=True)
