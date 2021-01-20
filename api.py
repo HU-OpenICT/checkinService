@@ -104,5 +104,4 @@ def checkins_update(checkin_id):
 
 app.run()
 
-# http://127.0.0.1:5000/api/checkins
-# http://127.0.0.1:5000/api/checkins/user/1?feeling=1&squad=1
+
